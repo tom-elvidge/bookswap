@@ -34,7 +34,7 @@ class BrowseSubsectionViewModel: ObservableObject {
                 title: "Recently Added",
                 subtitle: "These books have been added by other readers recently.",
                 previewBooksIds: ["sd", "aq", "tfe"],
-                bookIds: ["sd", "aq", "tfe"]
+                bookIds: ["sd", "aq", "tfe", "twok"]
             )
     ]
     
