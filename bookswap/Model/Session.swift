@@ -1,5 +1,5 @@
 //
-//  MyUser.swift
+//  Session.swift
 //  bookswap
 //
 //  Created by Tom Elvidge on 15/08/2020.
@@ -9,10 +9,10 @@
 import Foundation
 
 // Use as an enviroment object so that user info for the logged in user is accessible everywhere.
-class MyUser: ObservableObject {
+class Session: ObservableObject {
     
     // Use a mock api for now.
-    private var api: ApiMock = ApiMock.getApiMock()
+    private var api: ExampleData = ExampleData.getExampleData()
     
     @Published var user: User?
     
@@ -20,8 +20,8 @@ class MyUser: ObservableObject {
 //    @Published var displayName: String?
 //    @Published var pictureUrl: String?
 //    @Published var about: String?
-//    @Published var likes: [Book2]?
-//    @Published var library: [Book2]?
+//    @Published var likes: [Book]?
+//    @Published var library: [Book]?
     
     init(username: String) {
         // Attempt to log in with inital user credentials.
@@ -44,7 +44,7 @@ class MyUser: ObservableObject {
         return self.user != nil
     }
     
-    func inLikes(book: Book2) -> Bool {
+    func inLikes(book: Book) -> Bool {
         if isLoggedIn() {
             return user!.likes.contains(where: {$0 == book})
         } else {
@@ -53,7 +53,7 @@ class MyUser: ObservableObject {
         }
     }
     
-    func addToLikes(book: Book2) {
+    func addToLikes(book: Book) {
         if !inLikes(book: book) {
             // If not logged in then cannot like.
             if !isLoggedIn() {
@@ -70,7 +70,7 @@ class MyUser: ObservableObject {
         }
     }
     
-    func removeFromLikes(book: Book2) {
+    func removeFromLikes(book: Book) {
         if inLikes(book: book) {
             if isLoggedIn() {
                 // If already liked the remove from user's likes.
@@ -82,7 +82,7 @@ class MyUser: ObservableObject {
         }
     }
     
-    func inLibrary(book: Book2) -> Bool {
+    func inLibrary(book: Book) -> Bool {
         if isLoggedIn() {
             return user!.library.contains(where: {$0 == book})
         } else {
@@ -91,7 +91,7 @@ class MyUser: ObservableObject {
         }
     }
     
-    func addToLibrary(book: Book2) {
+    func addToLibrary(book: Book) {
         if !inLibrary(book: book) {
             // If not logged in then cannot like.
             if !isLoggedIn() {
@@ -108,7 +108,7 @@ class MyUser: ObservableObject {
         }
     }
     
-    func removeFromLibrary(book: Book2) {
+    func removeFromLibrary(book: Book) {
         if inLibrary(book: book) {
             if isLoggedIn() {
                 // If already in library the remove from user's library.

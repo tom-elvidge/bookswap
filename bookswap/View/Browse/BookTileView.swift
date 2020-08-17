@@ -10,8 +10,8 @@ import SwiftUI
 
 struct BookTileView: View {
     
-    @Binding var book: Book2
-    @EnvironmentObject var myUser: MyUser
+    @Binding var book: Book
+    @EnvironmentObject var Session: Session
     
     // Height and width to use for book tile.
     private var width: CGFloat
@@ -20,7 +20,7 @@ struct BookTileView: View {
     // Default off black color to use when tile missing a book cover.
     let tileColor: Color = Color(red: 0.1, green: 0.1, blue: 0.1)
        
-    init(book: Binding<Book2>) {
+    init(book: Binding<Book>) {
         self._book = book
         
         // Calculate width and heigh of book tiles.
@@ -42,11 +42,11 @@ struct BookTileView: View {
                         UrlImageView(urlString: book.imageUrlString)
                     }
                     // Conditionally display liked overlay.
-                    if myUser.inLikes(book: book) {
+                    if Session.inLikes(book: book) {
                         overlay(systemName: "heart.fill", color: Color.white)
                     }
                     // Conditionally display inLibrary overlay.
-                    if myUser.inLibrary(book: book) {
+                    if Session.inLibrary(book: book) {
                         overlay(systemName: "checkmark", color: Color.white)
                     }
                 }
@@ -63,13 +63,13 @@ struct BookTileView: View {
                         Button(action: {
                             self.toggleLike()
                         }) {
-                            Text(myUser.inLikes(book: book) ? "Unlike" : "Like")
+                            Text(Session.inLikes(book: book) ? "Unlike" : "Like")
                         }
                         // Toggle inLibrary
                         Button(action: {
                             self.toggleInLibrary()
                         }) {
-                            Text(myUser.inLibrary(book: book) ? "Remove from library" : "Add to library")
+                            Text(Session.inLibrary(book: book) ? "Remove from library" : "Add to library")
                         }
                     }
             }
@@ -129,19 +129,19 @@ struct BookTileView: View {
     
     func toggleLike() {
         // If not inLikes then like, otherwise remove from likes.
-        if !self.myUser.inLikes(book: self.book) {
-            self.myUser.addToLikes(book: self.book)
+        if !self.Session.inLikes(book: self.book) {
+            self.Session.addToLikes(book: self.book)
         } else {
-            self.myUser.removeFromLikes(book: self.book)
+            self.Session.removeFromLikes(book: self.book)
         }
     }
     
     func toggleInLibrary() {
         // If not in library then add, otherwise remove from library.
-        if !self.myUser.inLibrary(book: self.book) {
-            self.myUser.addToLibrary(book: self.book)
+        if !self.Session.inLibrary(book: self.book) {
+            self.Session.addToLibrary(book: self.book)
         } else {
-            self.myUser.removeFromLibrary(book: self.book)
+            self.Session.removeFromLibrary(book: self.book)
         }
     }
     
@@ -150,10 +150,10 @@ struct BookTileView: View {
 struct BookTileView_Previews: PreviewProvider {
     static var previews: some View {
         HStack {
-            BookTileView(book: .constant(ApiMock.getApiMock().getBook(id: "aq")!))
-            BookTileView(book: .constant(ApiMock.getApiMock().getBook(id: "twok")!))
-            BookTileView(book: .constant(ApiMock.getApiMock().getBook(id: "twmf")!))
+            BookTileView(book: .constant(ExampleData.getExampleData().getBook(id: "aq")!))
+            BookTileView(book: .constant(ExampleData.getExampleData().getBook(id: "twok")!))
+            BookTileView(book: .constant(ExampleData.getExampleData().getBook(id: "twmf")!))
         }
-            .environmentObject(MyUser(username: "tom"))
+            .environmentObject(Session(username: "tom"))
     }
 }

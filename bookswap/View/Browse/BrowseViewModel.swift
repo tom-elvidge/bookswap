@@ -10,7 +10,7 @@ import Foundation
 
 class BrowseViewModel: ObservableObject {
     
-    var api = ApiMock.getApiMock()
+    var api = ExampleData.getExampleData()
     
     // List of all subsection ids.
     @Published var subsectionIds: [String]

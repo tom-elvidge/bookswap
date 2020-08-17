@@ -10,14 +10,14 @@ import SwiftUI
 
 struct BookDetailsView: View {
     
-    @Binding var book: Book2
-    @EnvironmentObject var myUser: MyUser
+    @Binding var book: Book
+    @EnvironmentObject var Session: Session
     
     // Height and width to use for book cover.
     private var width: CGFloat
     private var height: CGFloat
         
-    init(book: Binding<Book2>) {
+    init(book: Binding<Book>) {
         self._book = book
         
         // Calculate width and heigh of book cover.
@@ -93,30 +93,30 @@ struct BookDetailsView: View {
     func likeButton() -> some View {
         Button(action: {
             // If not inLikes then like, otherwise remove from likes.
-            if !self.myUser.inLikes(book: self.book) {
-                self.myUser.addToLikes(book: self.book)
+            if !self.Session.inLikes(book: self.book) {
+                self.Session.addToLikes(book: self.book)
             } else {
-                self.myUser.removeFromLikes(book: self.book)
+                self.Session.removeFromLikes(book: self.book)
             }
         }) {
-            Image(systemName: myUser.inLikes(book: book) ? "heart.fill" : "heart")
+            Image(systemName: Session.inLikes(book: book) ? "heart.fill" : "heart")
                 .font(.system(size: 22, weight: .regular))
-                .foregroundColor(myUser.inLikes(book: book) ? Color.red : Color.gray)
+                .foregroundColor(Session.inLikes(book: book) ? Color.red : Color.gray)
         }
     }
     
     func addToLibraryButton() -> some View {
         Button(action: {
             // If not in library then add, otherwise remove from library.
-            if !self.myUser.inLibrary(book: self.book) {
-                self.myUser.addToLibrary(book: self.book)
+            if !self.Session.inLibrary(book: self.book) {
+                self.Session.addToLibrary(book: self.book)
             } else {
-                self.myUser.removeFromLibrary(book: self.book)
+                self.Session.removeFromLibrary(book: self.book)
             }
         }) {
-            Image(systemName: myUser.inLibrary(book: book) ? "checkmark.circle.fill" : "checkmark.circle")
+            Image(systemName: Session.inLibrary(book: book) ? "checkmark.circle.fill" : "checkmark.circle")
                 .font(.system(size: 22, weight: .regular))
-                .foregroundColor(myUser.inLibrary(book: book) ? Color.blue : Color.gray)
+                .foregroundColor(Session.inLibrary(book: book) ? Color.blue : Color.gray)
         }
     }
     
@@ -125,7 +125,7 @@ struct BookDetailsView: View {
 struct BookDetailsView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            BookDetailsView(book: .constant(ApiMock.getApiMock().getBook(id: "twok")!)).environmentObject(MyUser(username: "tom"))
+            BookDetailsView(book: .constant(ExampleData.getExampleData().getBook(id: "twok")!)).environmentObject(Session(username: "tom"))
         }
     }
 }

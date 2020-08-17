@@ -1,5 +1,5 @@
 //
-//  ApiMock.swift
+//  ExampleData.swift
 //  bookswap
 //
 //  Created by Tom Elvidge on 13/08/2020.
@@ -8,37 +8,11 @@
 
 import Foundation
 
-struct Book2: Identifiable, Equatable {
-    var id: String
-    var title: String
-    var authors: [String]
-    var publisher: String?
-    var description: String?
-    var imageUrlString: String?
-}
-
-struct User {
-    var username: String
-    var displayName: String?
-    var pictureUrl: String?
-    var about: String?
-    var likes: [Book2]
-    var library: [Book2]
-}
-
-struct Subsection2: Identifiable, Equatable {
-    var id: String
-    var title: String
-    var subtitle: String
-    var books: [Book2]
-}
-
-class ApiMock {
+class ExampleData {
     
-    // Mock static book database.
-    private var books: Dictionary<String, Book2> = [
+    var books: Dictionary<String, Book> = [
         "twok":
-            Book2.init(
+            Book.init(
                 id: "twok",
                 title: "The Way Of Kings",
                 authors: ["Brandon Sanderson"],
@@ -59,7 +33,7 @@ class ApiMock {
                 imageUrlString: "https://books.google.co.uk/books/content?id=OHclhBVv-X4C&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE70RrVfXXH7QYI5FvdO4BzrOLNu9RSu0Z9mTxvEUImicW6bguAWWTF9swwZiFpIIrWV-ia-cjvX_gRD0SBp44-M_zWw_t8ufl9IvFWIIDfEbiyW0N86oHLpNdbi_dohptsMGP0iU"
             ),
         "tnotw":
-            Book2.init(
+            Book.init(
                 id: "tnotw",
                 title: "The Name Of The Wind",
                 authors: ["Patrick Rothfuss"],
@@ -72,7 +46,7 @@ class ApiMock {
                 imageUrlString: "https://books.google.com/books/content?id=BcG2dVRXKukC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
             ),
         "twmf":
-            Book2.init(
+            Book.init(
                 id: "twmf",
                 title: "The Wise Man's Fear",
                 authors: ["Patrick Rothfuss"],
@@ -83,7 +57,7 @@ class ApiMock {
                 imageUrlString: "https://books.google.com/books/content?id=dLo_GyEykjQC&printsec=frontcover&img=1&zoom=1&source=gbs_api"
             ),
         "tsrost":
-            Book2.init(
+            Book.init(
                 id: "tsrost",
                 title: "The Slow Regard Of Silent Things",
                 authors: ["Patrick Rothfuss"],
@@ -94,7 +68,7 @@ class ApiMock {
                 imageUrlString: "https://books.google.com/books/content?id=5291oAEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
             ),
         "agot":
-            Book2.init(
+            Book.init(
                 id: "agot",
                 title: "A Game Of Thrones",
                 authors: ["George R. R. Martin"],
@@ -105,7 +79,7 @@ class ApiMock {
                 imageUrlString: "https://books.google.com/books/content?id=72aHpwAACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
             ),
         "aa":
-            Book2.init(
+            Book.init(
                 id: "aa",
                 title: "Assassin's Apprentice",
                 authors: ["Robin Hobb"],
@@ -116,7 +90,7 @@ class ApiMock {
                 imageUrlString: "https://books.google.com/books/content?id=95X0eL8VZvgC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
             ),
         "aq":
-            Book2.init(
+            Book.init(
                 id: "aq",
                 title: "Assassin's Quest",
                 authors: ["Robin Hobb"],
@@ -131,7 +105,7 @@ class ApiMock {
                 imageUrlString: "https://books.google.co.uk/books/content?id=-T0cz9BZ_DcC&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73cLjoC7cGzi1kY95iLn3UqHA0a84w01F9rBzSgZ1_Abq-EhzgMJRC5pHDkNBzHf2bS335xpAyNblGJAQjIaov3mLGXOQyDLhYunY3saJ1IM_XmS1Ji1Sy6S8DdYe8eHTAHBuL1"
             ),
         "ra":
-            Book2.init(
+            Book.init(
                 id: "ra",
                 title: "Royal Assassin",
                 authors: ["Robin Hobb"],
@@ -142,7 +116,7 @@ class ApiMock {
                 imageUrlString: "https://books.google.com/books/content?id=Gd8IGxmHxucC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
             ),
         "tfe":
-            Book2.init(
+            Book.init(
                 id: "tfe",
                 title: "The Final Empire",
                 authors: ["Brandon Sanderson"],
@@ -158,63 +132,70 @@ class ApiMock {
             )
     ]
     
-    // All the users of the application
-    private var users: Dictionary<String, User>
-    
-    // Subsections for the Browse tab
-    private var subsections: Dictionary<String, Subsection2>
-    
-    // Initialise subsections, users and myUser as they depend on books.
-    init() {
-        subsections = [
-            "matchRightNow":
-                Subsection2.init(
-                    id: "matchRightNow",
-                    title: "Match Right Now",
-                    subtitle: "Readers with these books are interested in your library.",
-                    books: [books["aa"]!, books["aq"]!, books["ra"]!]
-                ),
-            "recentlyAdded":
-                Subsection2.init(
-                    id: "recentlyAdded",
-                    title: "Recently Added",
-                    subtitle: "These books have been added by other readers recently.",
-                    books: [books["tsrost"]!, books["twok"]!, books["tfe"]!, books["agot"]!]
-                )
-        ]
-        users = [
-            "tom":
-                User.init(
-                    username: "tom",
-                    displayName: "Tom Elvidge",
-                    about: "I'm looking for new fantasy books. Some of my favourite fantasy authors are Brandson Sanderson, Patrick Rothfuss and Robin Hobb.",
-                    likes: [books["twmf"]!, books["tsrost"]!],
-                    library: [books["twok"]!, books["tfe"]!, books["tnotw"]!, books["agot"]!]
-                ),
-            "steve":
+    var users: Dictionary<String, User> = [
+        "tom":
+            User.init(
+                username: "tom",
+                displayName: "Tom Elvidge",
+                about: "I'm looking for new fantasy books. Some of my favourite fantasy authors are Brandson Sanderson, Patrick Rothfuss and Robin Hobb.",
+                likes: [],
+                library: []
+            ),
+        "steve":
             User.init(
                 username: "steve",
                 displayName: "Steve Bloggs",
                 about: "I'm looking for anything by Brandon Sanderson.",
-                likes: [books["tfe"]!, books["twok"]!],
-                library: [books["aa"]!, books["aq"]!, books["ra"]!]
+                likes: [],
+                library: []
             )
-        ]
+    ]
+    
+    var subsections: Dictionary<String, Subsection> = [
+        "matchRightNow":
+            Subsection.init(
+                id: "matchRightNow",
+                title: "Match Right Now",
+                subtitle: "Readers with these books are interested in your library.",
+                books: []
+            ),
+        "recentlyAdded":
+            Subsection.init(
+                id: "recentlyAdded",
+                title: "Recently Added",
+                subtitle: "These books have been added by other readers recently.",
+                books: []
+            )
+    ]
+    
+    // Initialise subsections, users and Session as they depend on books.
+    init() {
+        // Add books to subsections.
+        subsections["matchRightNow"]!.books.append(contentsOf: [books["aa"]!, books["aq"]!, books["ra"]!])
+        subsections["recentlyAdded"]!.books.append(contentsOf: [books["tsrost"]!, books["twok"]!, books["tfe"]!, books["agot"]!])
+        
+        // Add books to tom's library and likes.
+        users["tom"]!.likes.append(contentsOf: [books["twmf"]!, books["tsrost"]!])
+        users["tom"]!.library.append(contentsOf: [books["twok"]!, books["tfe"]!, books["tnotw"]!, books["agot"]!])
+        
+        // Add books to steve's library and likes.
+        users["steve"]!.likes.append(contentsOf: [books["tfe"]!, books["twok"]!])
+        users["steve"]!.library.append(contentsOf: [books["aa"]!, books["aq"]!, books["ra"]!])
     }
     
-    // Make ApiMock a singleton for ease of use.
-    private static var apiMock = ApiMock()
+    // Make ExampleData a singleton for ease of use.
+    private static var exampleData = ExampleData()
     
-    // Make ApiMock a singleton for ease of use.
-    static func getApiMock() -> ApiMock {
-        return apiMock
+    // Make ExampleData a singleton for ease of use.
+    static func getExampleData() -> ExampleData {
+        return exampleData
     }
     
     func getSubsections() -> [String] {
         return Array(subsections.keys)
     }
     
-    func getSubsection(id: String) -> Subsection2? {
+    func getSubsection(id: String) -> Subsection? {
         if let subsection = subsections[id] {
             // A Subsection with id exists, return it.
             return subsection
@@ -224,8 +205,6 @@ class ApiMock {
             return nil
         }
     }
-    
-    // Subsections are read-only so no setter/update function.
     
     func getUsers() -> [String] {
         return Array(users.keys)
@@ -246,7 +225,7 @@ class ApiMock {
         return Array(books.keys)
     }
     
-    func getBook(id: String) -> Book2? {
+    func getBook(id: String) -> Book? {
         if let book = books[id] {
             // A Book with id exists, return it.
             return book
@@ -256,7 +235,5 @@ class ApiMock {
             return nil
         }
     }
-    
-    // Books are read-only so no setter/update function.
     
 }
