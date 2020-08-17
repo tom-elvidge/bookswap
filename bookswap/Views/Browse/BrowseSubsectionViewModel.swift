@@ -8,60 +8,51 @@
 
 import Foundation
 
-struct Subsection {
-    var id: String
-    var title: String
-    var subtitle: String
-    var previewBooksIds: [String]
-    var bookIds: [String]
-}
-
 class BrowseSubsectionViewModel: ObservableObject {
     
-    // subsections variable since there is no database or api yet.
-    private var subsections: Dictionary<String, Subsection> = [
-        "matchRightNow":
-            Subsection.init(
-                id: "matchRightNow",
-                title: "Match Right Now",
-                subtitle: "Readers with these books are interested in your library.",
-                previewBooksIds: ["twok", "aq", "tfe"],
-                bookIds: ["twok", "aq", "tfe"]
-            ),
-        "recentlyAdded":
-            Subsection.init(
-                id: "recentlyAdded",
-                title: "Recently Added",
-                subtitle: "These books have been added by other readers recently.",
-                previewBooksIds: ["sd", "aq", "tfe"],
-                bookIds: ["sd", "aq", "tfe", "twok"]
-            )
-    ]
+    var api = ApiMock.getApiMock()
     
-    @Published var subsection: Subsection?
+    @Published var subsection: Subsection2
     
     init(subsectionId: String) {
-        // Attempt to get the Subsection with the passed subsectionId.
-        if let subsection = subsections[subsectionId] {
-            // A Subsection with subsectionId exists, set Subsection.
+        if let subsection = api.getSubsection(id: subsectionId) {
             self.subsection = subsection
-            // Get preview bookIds from all bookIds.
-//            if (subsection.bookIds.count <= size) {
-//                // Get all bookIds.
-//                return Array(subsection.bookIds[0...(subsection.bookIds.count - 1)])
-//            } else {
-//                // Just get first $size bookIds.
-//                return Array(subsection.bookIds[0...(size - 1)])
-//            }
         } else {
-            // No Subsection with subsectionId.
-            print("Error: No Subsection with subsectionId.")
+            self.subsection = Subsection2.init(id: subsectionId, title: "Not Found", subtitle: "Subsection not found.", books: [])
         }
     }
     
-    func moreResults() {
-        // This is called when the user gets to the bottom of the list of books of this subsection.
-        // Call the api to get the next set of bookIds and append them to bookIds.
+    func getMoreResults() {
+        var newResults: [Book2] = []
+        for bookid in api.getBooks() {
+            newResults.append(api.getBook(id: bookid)!)
+        }
+        subsection.books.append(contentsOf: newResults)
+    }
+    
+    func getGridLayoutIndicies(books: [Book2], columns: Int) -> [Range<Int>] {
+        // Have to use indicies in order to get bindings to the original struct.
+        var layout: [Range<Int>] = []
+        // Add all the full rows.
+        if books.count >= columns {
+            for i in stride(from: 0, to: books.count-1, by: columns) {
+                layout.append(i..<i+columns)
+            }
+        }
+        // Add the final row.
+        let from = books.count - (books.count % columns)
+        layout.append(from..<books.count)
+        // Return the complete layout.
+        return layout
+    }
+    
+    func getPreviewBookIndicies(books: [Book2], size: Int) -> Range<Int> {
+        // Have to use indicies in order to get bindings to the original struct.
+        if books.count < size {
+            return (0..<books.count)
+        } else {
+            return (0..<size)
+        }
     }
     
 }

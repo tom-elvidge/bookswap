@@ -9,15 +9,22 @@
 import SwiftUI
 
 struct MyProfileView: View {
+    
+    @ObservedObject var myProfileViewModel: MyProfileViewModel = MyProfileViewModel()
+       
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack {
-                    Text("Profile")
+                VStack(alignment: .leading) {
+                    Text(myProfileViewModel.displayName)
+                    Text(myProfileViewModel.username)
+                    
+                    // Library
+                    LibraryView(bookIds: myProfileViewModel.library)
                 }
                     .padding()
             }
-                .navigationBarTitle("Profile", displayMode: .inline)
+                .navigationBarTitle(Text(myProfileViewModel.username), displayMode: .inline)
         }
             .navigationViewStyle(StackNavigationViewStyle())
     }

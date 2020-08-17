@@ -39,9 +39,10 @@ struct BrowseView: View {
     func searchResults() -> some View {
         ScrollView {
             VStack {
-                ForEach(["all","bookId","results","for","searchBar.text"], id: \.self) { bookId in
-                    BookTileView(bookId: bookId)
-                }
+                Text("Search results...")
+//                ForEach([].indices, id: \.self) { index in
+//                    StupidBookTileView(book: [][index])
+//                }
                 // If scrolled to bottom, get next set of results using api pagination.
             }
                 .padding()

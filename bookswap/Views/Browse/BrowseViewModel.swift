@@ -10,10 +10,13 @@ import Foundation
 
 class BrowseViewModel: ObservableObject {
     
-    @Published var subsectionIds: [String] = ["recentlyAdded", "matchRightNow"]
+    var api = ApiMock.getApiMock()
     
-    // init function which just calls update
+    // List of all subsection ids.
+    @Published var subsectionIds: [String]
     
-    // update function which updates subsectionids from api
+    init() {
+        subsectionIds = api.getSubsections()
+    }
     
 }

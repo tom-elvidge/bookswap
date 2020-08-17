@@ -18,40 +18,36 @@ struct BrowseSubsectionView: View {
     
     var body: some View {
         VStack(alignment: .center) {
-            // Cannot use if let in SwiftUI View.
-            // Don't display browse subsection if browseSubsectionViewModel.subsection is nil
-            if browseSubsectionViewModel.subsection != nil {
-                // Title and See All
-                HStack(alignment: .bottom) {
-                    // Title
-                    Text(browseSubsectionViewModel.subsection!.title)
-                        .font(.title)
-                        .fontWeight(.bold)
+            // Title and See All
+            HStack(alignment: .bottom) {
+                // Title
+                Text(browseSubsectionViewModel.subsection.title)
+                    .font(.title)
+                    .fontWeight(.bold)
                     
-                    // Space so that Title is on the left and See All is on the right.
-                    Spacer()
-                    
-                    // See All
-                    NavigationLink(destination: seeAll()) {
-                        Text("See All")
-                            .font(.subheadline)
-                    }
-                }
+                // Space so that Title is on the left and See All is on the right.
+                Spacer()
                 
-                // Subtitle
-                HStack {
-                    Text(browseSubsectionViewModel.subsection!.subtitle)
+                // See All
+                NavigationLink(destination: seeAll()) {
+                    Text("See All")
                         .font(.subheadline)
-                        .foregroundColor(Color.gray)
-                    // Push left
-                    Spacer()
                 }
+            }
                 
-                HStack(spacing: 15) {
-                    // Books preview
-                    ForEach(browseSubsectionViewModel.subsection!.previewBooksIds, id: \.self) { bookId in
-                        BookTileView(bookId: bookId)
-                    }
+            // Subtitle
+            HStack {
+                Text(browseSubsectionViewModel.subsection.subtitle)
+                    .font(.subheadline)
+                    .foregroundColor(Color.gray)
+                // Push left
+                Spacer()
+            }
+            
+            HStack(spacing: 15) {
+                // Books preview
+                ForEach(browseSubsectionViewModel.getPreviewBookIndicies(books: browseSubsectionViewModel.subsection.books, size: 3), id: \.self) { index in
+                    BookTileView(book: self.$browseSubsectionViewModel.subsection.books[index])
                 }
             }
         }
@@ -60,35 +56,23 @@ struct BrowseSubsectionView: View {
     func seeAll() -> some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 15) {
-                ForEach(buildGridLayout(bookIds: browseSubsectionViewModel.subsection!.bookIds, columns: 3), id: \.self) { row in
+                ForEach(browseSubsectionViewModel.getGridLayoutIndicies(books: browseSubsectionViewModel.subsection.books, columns: 3), id: \.self) { row in
                     HStack(spacing: 15) {
-                        ForEach(row, id: \.self) { bookId in
-                            BookTileView(bookId: bookId)
+                        ForEach(row, id: \.self) { index in
+                            BookTileView(book: self.$browseSubsectionViewModel.subsection.books[index])
                         }
                     }
                 }
+                Button(action: {
+                    self.browseSubsectionViewModel.getMoreResults()
+                }, label: {
+                    Text("Load more...")
+                })
                 // Todo: If scrolled to bottom, get next set of results using api pagination. Can you maintain scroll position when these are added?
             }
                 .padding()
         }
-        .navigationBarTitle(Text(browseSubsectionViewModel.subsection!.title), displayMode: .inline)
-    }
-    
-    func buildGridLayout(bookIds: [String], columns: Int) -> [[String]] {
-        var layout: [[String]] = []
-        
-        // Add all the full rows.
-        if bookIds.count >= columns {
-            for i in stride(from: 0, to: bookIds.count-1, by: columns) {
-                layout.append(Array(bookIds[i..<i+columns]))
-            }
-        }
-        
-        // Add the final row.
-        let from = bookIds.count - (bookIds.count % columns)
-        layout.append(Array(bookIds[from..<bookIds.count]))
-        
-        return layout
+        .navigationBarTitle(Text(browseSubsectionViewModel.subsection.title), displayMode: .inline)
     }
     
 }
