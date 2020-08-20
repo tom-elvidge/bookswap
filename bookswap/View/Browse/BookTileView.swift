@@ -12,6 +12,7 @@ struct BookTileView: View {
     
     @Binding var book: Book
     @EnvironmentObject var Session: Session
+    @State var showMoreOptions: Bool = false
     
     // Height and width to use for book tile.
     private var width: CGFloat
@@ -57,20 +58,23 @@ struct BookTileView: View {
                     .onTapGesture(count: 2) {
                         self.toggleLike()
                     }
-                    // Define long press acself.tion (get more options).
-                    .contextMenu {
-                        // Toggle liked
-                        Button(action: {
-                            self.toggleLike()
-                        }) {
-                            Text(Session.inLikes(book: book) ? "Unlike" : "Like")
-                        }
-                        // Toggle inLibrary
-                        Button(action: {
-                            self.toggleInLibrary()
-                        }) {
-                            Text(Session.inLibrary(book: book) ? "Remove from library" : "Add to library")
-                        }
+                    // Show more options in an action sheet on a long press.
+                    .onLongPressGesture {
+                        self.showMoreOptions = true
+                    }
+                    .actionSheet(isPresented: $showMoreOptions) {
+                        ActionSheet(
+                            title: Text(book.title),
+                            buttons: [
+                                .default(Text(Session.inLikes(book: book) ? "Unlike" : "Like")) {
+                                    self.toggleLike()
+                                },
+                                .default(Text(Session.inLibrary(book: book) ? "Remove from library" : "Add to library")) {
+                                    self.toggleInLibrary()
+                                },
+                                .cancel()
+                            ]
+                        )
                     }
             }
                 .buttonStyle(PlainButtonStyle())

@@ -6,7 +6,7 @@
 //  Copyright © 2020 Tom Elvidge. All rights reserved.
 //
 
-struct Book: Identifiable, Equatable {
+struct Book: Identifiable, Equatable, Hashable {
     var id: String
     var title: String
     var authors: [String]

@@ -82,12 +82,8 @@ struct BookDetailsView: View {
         UrlImageView(urlString: book.imageUrlString!)
         .frame(width: width, height: height)
         .clipped()
-        .cornerRadius(5)
-        .overlay(
-            RoundedRectangle(cornerRadius: 5)
-                .stroke(Color.white, lineWidth: 1)
-        )
-        .shadow(radius: 5)
+        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+        .shadow(radius: 3)
     }
     
     func likeButton() -> some View {
