@@ -11,7 +11,7 @@ import SwiftUI
 struct BookDetailsView: View {
     
     @Binding var book: Book
-    @EnvironmentObject var Session: Session
+    @EnvironmentObject var session: Session
     
     // Height and width to use for book cover.
     private var width: CGFloat
@@ -89,30 +89,30 @@ struct BookDetailsView: View {
     func likeButton() -> some View {
         Button(action: {
             // If not inLikes then like, otherwise remove from likes.
-            if !self.Session.inLikes(book: self.book) {
-                self.Session.addToLikes(book: self.book)
+            if !self.session.inLikes(book: self.book) {
+                self.session.addToLikes(book: self.book)
             } else {
-                self.Session.removeFromLikes(book: self.book)
+                self.session.removeFromLikes(book: self.book)
             }
         }) {
-            Image(systemName: Session.inLikes(book: book) ? "heart.fill" : "heart")
+            Image(systemName: session.inLikes(book: book) ? "heart.fill" : "heart")
                 .font(.system(size: 22, weight: .regular))
-                .foregroundColor(Session.inLikes(book: book) ? Color.red : Color.gray)
+                .foregroundColor(session.inLikes(book: book) ? Color.red : Color.gray)
         }
     }
     
     func addToLibraryButton() -> some View {
         Button(action: {
             // If not in library then add, otherwise remove from library.
-            if !self.Session.inLibrary(book: self.book) {
-                self.Session.addToLibrary(book: self.book)
+            if !self.session.inLibrary(book: self.book) {
+                self.session.addToLibrary(book: self.book)
             } else {
-                self.Session.removeFromLibrary(book: self.book)
+                self.session.removeFromLibrary(book: self.book)
             }
         }) {
-            Image(systemName: Session.inLibrary(book: book) ? "checkmark.circle.fill" : "checkmark.circle")
+            Image(systemName: session.inLibrary(book: book) ? "checkmark.circle.fill" : "checkmark.circle")
                 .font(.system(size: 22, weight: .regular))
-                .foregroundColor(Session.inLibrary(book: book) ? Color.blue : Color.gray)
+                .foregroundColor(session.inLibrary(book: book) ? Color.blue : Color.gray)
         }
     }
     

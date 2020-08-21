@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		E63EAF1A24E1875B00B83D6B /* BrowseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63EAF1924E1875B00B83D6B /* BrowseView.swift */; };
-		E63EAF2E24E429D000B83D6B /* MyProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63EAF2D24E429D000B83D6B /* MyProfileViewModel.swift */; };
 		E63EAF3024E42AB100B83D6B /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63EAF2F24E42AB100B83D6B /* ChatViewModel.swift */; };
 		E63EAF3224E42AEB00B83D6B /* SwapsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63EAF3124E42AEB00B83D6B /* SwapsViewModel.swift */; };
 		E63EAF3C24E43CF000B83D6B /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63EAF3B24E43CF000B83D6B /* LibraryView.swift */; };
@@ -36,7 +35,6 @@
 
 /* Begin PBXFileReference section */
 		E63EAF1924E1875B00B83D6B /* BrowseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseView.swift; sourceTree = "<group>"; };
-		E63EAF2D24E429D000B83D6B /* MyProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewModel.swift; sourceTree = "<group>"; };
 		E63EAF2F24E42AB100B83D6B /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		E63EAF3124E42AEB00B83D6B /* SwapsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapsViewModel.swift; sourceTree = "<group>"; };
 		E63EAF3B24E43CF000B83D6B /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
@@ -107,7 +105,6 @@
 			isa = PBXGroup;
 			children = (
 				E6F6150F24D6F34F00407C33 /* MyProfileView.swift */,
-				E63EAF2D24E429D000B83D6B /* MyProfileViewModel.swift */,
 				E63EAF3B24E43CF000B83D6B /* LibraryView.swift */,
 			);
 			path = Profile;
@@ -271,7 +268,6 @@
 				E6F614FC24D6F22C00407C33 /* AppDelegate.swift in Sources */,
 				E6F614FE24D6F22C00407C33 /* SceneDelegate.swift in Sources */,
 				E63EAF4224E7F04200B83D6B /* BookTileView.swift in Sources */,
-				E63EAF2E24E429D000B83D6B /* MyProfileViewModel.swift in Sources */,
 				E63EAF4024E5715900B83D6B /* ExampleData.swift in Sources */,
 				E63EAF3C24E43CF000B83D6B /* LibraryView.swift in Sources */,
 				E63EAF4F24EABB7900B83D6B /* Subsection.swift in Sources */,

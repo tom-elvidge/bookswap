@@ -11,7 +11,7 @@ import SwiftUI
 struct BookTileView: View {
     
     @Binding var book: Book
-    @EnvironmentObject var Session: Session
+    @EnvironmentObject var session: Session
     @State var showMoreOptions: Bool = false
     
     // Height and width to use for book tile.
@@ -43,11 +43,11 @@ struct BookTileView: View {
                         UrlImageView(urlString: book.imageUrlString)
                     }
                     // Conditionally display liked overlay.
-                    if Session.inLikes(book: book) {
+                    if session.inLikes(book: book) {
                         overlay(systemName: "heart.fill", color: Color.white)
                     }
                     // Conditionally display inLibrary overlay.
-                    if Session.inLibrary(book: book) {
+                    if session.inLibrary(book: book) {
                         overlay(systemName: "checkmark", color: Color.white)
                     }
                 }
@@ -66,10 +66,10 @@ struct BookTileView: View {
                         ActionSheet(
                             title: Text(book.title),
                             buttons: [
-                                .default(Text(Session.inLikes(book: book) ? "Unlike" : "Like")) {
+                                .default(Text(session.inLikes(book: book) ? "Unlike" : "Like")) {
                                     self.toggleLike()
                                 },
-                                .default(Text(Session.inLibrary(book: book) ? "Remove from library" : "Add to library")) {
+                                .default(Text(session.inLibrary(book: book) ? "Remove from library" : "Add to library")) {
                                     self.toggleInLibrary()
                                 },
                                 .cancel()
@@ -133,19 +133,19 @@ struct BookTileView: View {
     
     func toggleLike() {
         // If not inLikes then like, otherwise remove from likes.
-        if !self.Session.inLikes(book: self.book) {
-            self.Session.addToLikes(book: self.book)
+        if !self.session.inLikes(book: self.book) {
+            self.session.addToLikes(book: self.book)
         } else {
-            self.Session.removeFromLikes(book: self.book)
+            self.session.removeFromLikes(book: self.book)
         }
     }
     
     func toggleInLibrary() {
         // If not in library then add, otherwise remove from library.
-        if !self.Session.inLibrary(book: self.book) {
-            self.Session.addToLibrary(book: self.book)
+        if !self.session.inLibrary(book: self.book) {
+            self.session.addToLibrary(book: self.book)
         } else {
-            self.Session.removeFromLibrary(book: self.book)
+            self.session.removeFromLibrary(book: self.book)
         }
     }
     

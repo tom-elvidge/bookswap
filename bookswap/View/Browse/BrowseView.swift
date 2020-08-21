@@ -22,7 +22,11 @@ struct BrowseView: View {
                     // Display either browse suggestions or search results.
                     if (searchText.isEmpty) {
                         ForEach(subsections.indices, id: \.self) { index in
-                            SubsectionView(subsection: self.$subsections[index])
+                            SubsectionView(
+                                books: self.$subsections[index].books,
+                                title: self.$subsections[index].title,
+                                subtitle: self.$subsections[index].subtitle
+                            )
                         }
                     } else {
                         // Do api query when user has not typed a new character for .5s

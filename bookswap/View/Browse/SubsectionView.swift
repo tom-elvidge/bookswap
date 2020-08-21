@@ -12,14 +12,16 @@ struct SubsectionView: View {
     
     let api = ExampleData.getExampleData()
     
-    @Binding var subsection: Subsection
+    @Binding var books: [Book]
+    @Binding var title: String
+    @Binding var subtitle: String
     
     var body: some View {
         VStack(alignment: .center) {
             // Title and See All
             HStack(alignment: .bottom) {
                 // Title
-                Text(subsection.title)
+                Text(title)
                     .font(.title)
                     .fontWeight(.bold)
                     
@@ -35,7 +37,7 @@ struct SubsectionView: View {
                 
             // Subtitle
             HStack {
-                Text(subsection.subtitle)
+                Text(subtitle)
                     .font(.subheadline)
                     .foregroundColor(Color.gray)
                 // Push left
@@ -44,8 +46,8 @@ struct SubsectionView: View {
             
             HStack(spacing: 15) {
                 // Books preview
-                ForEach(getPreviewBookIndicies(books: subsection.books, size: 3), id: \.self) { index in
-                    BookTileView(book: self.$subsection.books[index])
+                ForEach(getPreviewBookIndicies(books: books, size: 3), id: \.self) { index in
+                    BookTileView(book: self.$books[index])
                 }
             }
         }
@@ -54,10 +56,10 @@ struct SubsectionView: View {
     func seeAll() -> some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 15) {
-                ForEach(getGridLayoutIndicies(books: subsection.books, columns: 3), id: \.self) { row in
+                ForEach(getGridLayoutIndicies(books: books, columns: 3), id: \.self) { row in
                     HStack(spacing: 15) {
                         ForEach(row, id: \.self) { index in
-                            BookTileView(book: self.$subsection.books[index])
+                            BookTileView(book: self.$books[index])
                         }
                     }
                 }
@@ -70,7 +72,7 @@ struct SubsectionView: View {
             }
                 .padding()
         }
-        .navigationBarTitle(Text(subsection.title), displayMode: .inline)
+        .navigationBarTitle(Text(title), displayMode: .inline)
     }
 
     func getGridLayoutIndicies(books: [Book], columns: Int) -> [Range<Int>] {
@@ -103,7 +105,7 @@ struct SubsectionView: View {
         for bookId in api.getBooks() {
             results.append(api.getBook(id: bookId)!)
         }
-        subsection.books.append(contentsOf: results)
+        books.append(contentsOf: results)
     }
     
 }
@@ -111,8 +113,14 @@ struct SubsectionView: View {
 struct SubsectionView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            SubsectionView(subsection:
-                .constant(ExampleData.getExampleData().getSubsection(id: "matchRightNow")!)
+            SubsectionView(
+                books: .constant([
+                    ExampleData.getExampleData().getBook(id: "twok")!,
+                    ExampleData.getExampleData().getBook(id: "tnotw")!,
+                    ExampleData.getExampleData().getBook(id: "aq")!
+                ]),
+                title: .constant("Title"),
+                subtitle: .constant("Subtitle")
             )
         }
             .environmentObject(Session(username: "tom"))
