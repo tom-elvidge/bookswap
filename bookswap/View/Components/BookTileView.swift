@@ -51,9 +51,6 @@ struct BookTileView: View {
                         overlay(systemName: "checkmark", color: Color.white)
                     }
                 }
-                    .frame(width: width, height: height)
-                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-                    .shadow(radius: 3)
                     // Define double tap action (like book).
                     .onTapGesture(count: 2) {
                         self.toggleLike()
@@ -79,6 +76,9 @@ struct BookTileView: View {
             }
                 .buttonStyle(PlainButtonStyle())
         }
+            .frame(width: width, height: height)
+            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+            .shadow(radius: 3)
     }
     
     func bookTileNoImage() -> some View {

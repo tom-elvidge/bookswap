@@ -165,7 +165,14 @@ class ExampleData {
                 title: "Recently Added",
                 subtitle: "These books have been added by other readers recently.",
                 books: []
-            )
+            ),
+        "suggestions":
+            Subsection.init(
+                id: "suggestions",
+                title: "Suggestions",
+                subtitle: "We think you may like these books.",
+                books: []
+        )
     ]
     
     // Initialise subsections, users and Session as they depend on books.
@@ -173,10 +180,12 @@ class ExampleData {
         // Add books to subsections.
         subsections["matchRightNow"]!.books.append(contentsOf: [books["aa"]!, books["aq"]!, books["ra"]!])
         subsections["recentlyAdded"]!.books.append(contentsOf: [books["tsrost"]!, books["twok"]!, books["tfe"]!, books["agot"]!])
+        subsections["suggestions"]!.books.append(contentsOf: [books["tnotw"]!, books["ra"]!])
         
         // Add books to tom's library and likes.
-        users["tom"]!.likes.append(contentsOf: [books["twmf"]!, books["tsrost"]!])
-        users["tom"]!.library.append(contentsOf: [books["twok"]!, books["tfe"]!, books["tnotw"]!, books["agot"]!])
+        // At launch this user has nothing in likes or library.
+//        users["tom"]!.likes.append(contentsOf: [books["twmf"]!, books["tsrost"]!])
+//        users["tom"]!.library.append(contentsOf: [books["twok"]!, books["tfe"]!, books["tnotw"]!, books["agot"]!])
         
         // Add books to steve's library and likes.
         users["steve"]!.likes.append(contentsOf: [books["tfe"]!, books["twok"]!])
@@ -208,7 +217,7 @@ class ExampleData {
     
     func getBrowseSubsections() -> [Subsection] {
         var subsections: [Subsection] = []
-        for id in ["matchRightNow", "recentlyAdded"] {
+        for id in ["matchRightNow", "suggestions", "recentlyAdded"] {
             if let subsection = getSubsection(id: id) {
                 subsections.append(subsection)
             }

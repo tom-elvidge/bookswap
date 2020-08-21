@@ -8,7 +8,7 @@
 
 struct User {
     var username: String
-    var displayName: String?
+    var displayName: String
     var pictureUrl: String?
     var about: String?
     var likes: [Book]
