@@ -11,7 +11,7 @@ import SwiftUI
 struct BrowseView: View {
     
     @State var searchText: String = ""
-    @State var subsectionIds: [String] = ExampleData.getExampleData().getSubsections()
+    @State var subsections: [Subsection] = ExampleData.getExampleData().getBrowseSubsections()
 
     var body: some View {
         NavigationView {
@@ -21,8 +21,8 @@ struct BrowseView: View {
                     SearchBar(text: $searchText)
                     // Display either browse suggestions or search results.
                     if (searchText.isEmpty) {
-                        ForEach(subsectionIds, id: \.self) { id in
-                            BrowseSubsectionView(subsectionId: id)
+                        ForEach(subsections.indices, id: \.self) { index in
+                            SubsectionView(subsection: self.$subsections[index])
                         }
                     } else {
                         // Do api query when user has not typed a new character for .5s
@@ -83,5 +83,6 @@ struct BrowseView_Previews: PreviewProvider {
         NavigationView {
             BrowseView()
         }
+            .environmentObject(Session(username: "tom"))
     }
 }

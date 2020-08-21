@@ -206,6 +206,16 @@ class ExampleData {
         }
     }
     
+    func getBrowseSubsections() -> [Subsection] {
+        var subsections: [Subsection] = []
+        for id in ["matchRightNow", "recentlyAdded"] {
+            if let subsection = getSubsection(id: id) {
+                subsections.append(subsection)
+            }
+        }
+        return subsections
+    }
+    
     func getUsers() -> [String] {
         return Array(users.keys)
     }
